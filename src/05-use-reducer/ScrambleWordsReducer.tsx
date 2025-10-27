@@ -1,106 +1,95 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { SkipForward, Play } from 'lucide-react';
 import confetti from 'canvas-confetti'
+import { getInitialState, scrambleWordsReducer } from './scrambleWordReducer';
 
 
-const GAME_WORDS = [
-  'REACT',
-  'JAVASCRIPT',
-  'TYPESCRIPT',
-  'HTML',
-  'ANGULAR',
-  'SOLID',
-  'NODE',
-  'VUEJS',
-  'SVELTE',
-  'EXPRESS',
-  'MONGODB',
-  'POSTGRES',
-  'DOCKER',
-  'KUBERNETES',
-  'WEBPACK',
-  'VITE',
-  'TAILWIND',
-];
 
-// Esta función mezcla el arreglo para que siempre sea aleatorio
-const shuffleArray = (array: string[]) => {
-  return array.sort(() => Math.random() - 0.5);
-};
+export const ScrambleWordsReducer = () => {
 
-// Esta función mezcla las letras de la palabra
-const scrambleWord = (word: string = '') => {
-  return word
-    .split('')
-    .sort(() => Math.random() - 0.5)
-    .join('');
-};
+  const [ state, dispatch ] = useReducer( scrambleWordsReducer, getInitialState() )
 
-export const ScrambleWords = () => {
-  const [words, setWords] = useState(shuffleArray(GAME_WORDS));
+  const {
 
-  const [currentWord, setCurrentWord] = useState(words[0]);
-  const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
-  const [guess, setGuess] = useState('');
-  const [points, setPoints] = useState(0);
-  const [errorCounter, setErrorCounter] = useState(0);
-  const [maxAllowErrors, setMaxAllowErrors] = useState(3);
+    currentWord,
+    guess,
+    isGameOver,
+    maxAllowErrors,
+    maxSkips,
+    scrambledWord,
+    skipCounter,
+    words,
+    errorCounter,
+    points,
+    totalWords,
 
-  const [skipCounter, setSkipCounter] = useState(0);
-  const [maxSkips, setMaxSkips] = useState(3);
+  } = state
 
-  const [isGameOver, setIsGameOver] = useState(false);
+
+  // const [words, setWords] = useState(shuffleArray(GAME_WORDS));
+
+  // const [currentWord, setCurrentWord] = useState(words[0]);
+  // const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
+  // const [guess, setGuess] = useState('');
+  // const [points, setPoints] = useState(0);
+  // const [errorCounter, setErrorCounter] = useState(0);
+  // const [maxAllowErrors, setMaxAllowErrors] = useState(3);
+  //
+  // const [skipCounter, setSkipCounter] = useState(0);
+  // const [maxSkips, setMaxSkips] = useState(3);
+  //
+  // const [isGameOver, setIsGameOver] = useState(false);
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if ( guess === currentWord ) {
-      const newWords = words.slice( 1 )
-      setPoints( points + 1 )
-      setGuess( '' )
-      setWords( newWords )
-      setCurrentWord( newWords[ 0 ] )
-      setScrambledWord( scrambleWord( newWords[ 0 ] ) )
-      confetti({
-        particleCount: 100,
-        spread: 120,
-        origin: { y: 0.6 }
-      })
-      return
-    }
-
-    setErrorCounter( errorCounter + 1 )
-    setGuess( '' )
-    if ( errorCounter + 1 >= maxAllowErrors  ) {
-      setIsGameOver( true )
-    }
+    // if ( guess === currentWord ) {
+    //   const newWords = words.slice( 1 )
+    //   setPoints( points + 1 )
+    //   setGuess( '' )
+    //   setWords( newWords )
+    //   setCurrentWord( newWords[ 0 ] )
+    //   setScrambledWord( scrambleWord( newWords[ 0 ] ) )
+    //   confetti({
+    //     particleCount: 100,
+    //     spread: 120,
+    //     origin: { y: 0.6 }
+    //   })
+    //   return
+    // }
+    //
+    // setErrorCounter( errorCounter + 1 )
+    // setGuess( '' )
+    // if ( errorCounter + 1 >= maxAllowErrors  ) {
+    //   setIsGameOver( true )
+    // }
   };
 
   const handleSkip = () => {
-    if ( skipCounter > maxSkips ) {
-      alert( 'No puedes saltarte más veces' )
-      return
-    }
-    const updatedWords = words.slice( 1 )
-    setSkipCounter( skipCounter + 1 )
-    setWords( updatedWords )
-    setCurrentWord( updatedWords[ 0 ] )
-    setScrambledWord( scrambleWord( updatedWords[ 0 ] ) )
-    setGuess( '' )
+    // if ( skipCounter > maxSkips ) {
+    //   alert( 'No puedes saltarte más veces' )
+    //   return
+    // }
+    // const updatedWords = words.slice( 1 )
+    // setSkipCounter( skipCounter + 1 )
+    // setWords( updatedWords )
+    // setCurrentWord( updatedWords[ 0 ] )
+    // setScrambledWord( scrambleWord( updatedWords[ 0 ] ) )
+    // setGuess( '' )
   };
 
   const handlePlayAgain = () => {
-    setPoints( 0 )
-    setErrorCounter( 0 )
-    setGuess( '' )
-    const shuffledArray = shuffleArray( GAME_WORDS )
-    setWords( shuffledArray )
-    setCurrentWord( shuffledArray[ 0 ] )
-    setScrambledWord( scrambleWord( shuffledArray[ 0 ] ) )
-    setIsGameOver( false )
-    setSkipCounter( 0 )
+    // setPoints( 0 )
+    // setErrorCounter( 0 )
+    // setGuess( '' )
+    // const shuffledArray = shuffleArray( GAME_WORDS )
+    // setWords( shuffledArray )
+    // setCurrentWord( shuffledArray[ 0 ] )
+    // setScrambledWord( scrambleWord( shuffledArray[ 0 ] ) )
+    // setIsGameOver( false )
+    // setSkipCounter( 0 )
   };
 
 
@@ -204,7 +193,7 @@ export const ScrambleWords = () => {
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 text-center border border-green-200">
                 <div className="text-2xl font-bold text-green-600">
-                  {points} / {GAME_WORDS.length}
+                  {points} / {totalWords}
                 </div>
                 <div className="text-sm text-green-700 font-medium">Puntos</div>
               </div>
