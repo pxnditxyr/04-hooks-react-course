@@ -14,10 +14,10 @@ export interface ScrambleWordsState {
 }
 
 export type ScrambleWordAction =
-  | { type: 'jaja' }
-  | { type: 'jaja_1' }
-  | { type: 'jaja_2' }
-  | { type: 'jaja_3' }
+  | { type: 'SET_GUESS', payload: string }
+  | { type: 'CHECK_ANSWER' }
+  | { type: 'PLAY_AGAIN' }
+  | { type: 'SKIP_WORD' }
 
 
 
@@ -73,9 +73,67 @@ export const getInitialState = (): ScrambleWordsState => {
   }
 }
 
-export const scrambleWordsReducer = ( state: ScrambleWordsState, action: ScrambleWordAction ) => {
+export const scrambleWordsReducer = ( state: ScrambleWordsState, action: ScrambleWordAction ): ScrambleWordsState => {
 
   switch ( action.type ) {
+
+    case 'SET_GUESS':
+      return {
+        ...state,
+        guess: action.payload.trim().toUpperCase()
+      }
+
+    case 'CHECK_ANSWER':
+      if ( state.currentWord === state.guess ) {
+        const newWords = state.words.slice( 1 )
+        return {
+          ...state,
+          words: newWords,
+          points: state.points + 1,
+          guess: '',
+          currentWord: newWords[ 0 ],
+          scrambledWord: scrambleWord( newWords[ 0 ] )
+        }
+      }
+
+      return {
+        ...state,
+        guess: '',
+        errorCounter: state.errorCounter + 1,
+        isGameOver: ( state.errorCounter + 1 ) >= state.maxAllowErrors,
+      }
+    case 'PLAY_AGAIN':
+      const newWords = shuffleArray( GAME_WORDS )
+
+      return {
+        ...state,
+        words: newWords,
+        points: 0,
+        errorCounter: 0,
+        currentWord: newWords[ 0 ],
+        scrambledWord: scrambleWord( newWords[ 0 ] ),
+        guess: '',
+      }
+
+    case 'SKIP_WORD':
+      if ( state.skipCounter + 1 <= state.maxSkips ) {
+        const newWords = state.words.slice( 1 )
+        return {
+          ...state,
+          skipCounter: state.skipCounter + 1,
+          words: newWords,
+          currentWord: newWords[ 0 ],
+          scrambledWord: scrambleWord( newWords[ 0 ] ),
+          guess: '',
+        }
+      }
+
+      return {
+        ...state
+      }
+
+
+
     default:
       return state
 

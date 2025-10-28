@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -45,6 +45,10 @@ export const ScrambleWordsReducer = () => {
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    dispatch({
+      type: 'CHECK_ANSWER'
+    })
     // if ( guess === currentWord ) {
     //   const newWords = words.slice( 1 )
     //   setPoints( points + 1 )
@@ -68,6 +72,11 @@ export const ScrambleWordsReducer = () => {
   };
 
   const handleSkip = () => {
+    dispatch({
+      type: 'SKIP_WORD'
+    })
+
+
     // if ( skipCounter > maxSkips ) {
     //   alert( 'No puedes saltarte más veces' )
     //   return
@@ -81,6 +90,9 @@ export const ScrambleWordsReducer = () => {
   };
 
   const handlePlayAgain = () => {
+    dispatch({
+      type: 'PLAY_AGAIN'
+    })
     // setPoints( 0 )
     // setErrorCounter( 0 )
     // setGuess( '' )
@@ -171,7 +183,10 @@ export const ScrambleWordsReducer = () => {
                     type="text"
                     value={guess}
                     onChange={(e) =>
-                      setGuess(e.target.value.toUpperCase().trim())
+                      dispatch({
+                        type: 'SET_GUESS',
+                        payload: e.target.value,
+                      })
                     }
                     placeholder="Ingresa tu palabra..."
                     className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
