@@ -1,7 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { MemoHook } from './06-memo-hook/MemoHook'
+import { InstagromApp } from './07-useOptimistic/InstagromApp'
+// import { MemoCounter } from './06-memo-hook/MemoCounter'
+// import { MemoHook } from './06-memo-hook/MemoHook'
 // import { ScrambleWordsReducer } from './05-use-reducer/ScrambleWordsReducer'
 // import { ScrambleWords } from './05-use-reducer/ScrambleWords'
 // import { TasksApp } from './05-use-reducer/TaskApp'
@@ -21,6 +23,8 @@ createRoot(document.getElementById('root')!).render(
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
     {/* <ScrambleWordsReducer /> */}
-    <MemoHook />
-  </StrictMode>,
+    {/* <MemoHook /> */}
+    {/* <MemoCounter /> */}
+    <InstagromApp />
+  </StrictMode>
 )
