@@ -46,7 +46,7 @@ export const InstagromApp = () => {
         description: 'Intenta de nuevo',
         duration: 10_000,
         position: 'top-right',
-        type: 'error',
+
         action: {
           label: 'Cerrar',
           onClick: () => toast.dismiss(),
