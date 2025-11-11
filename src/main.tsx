@@ -1,9 +1,10 @@
-import { StrictMode, Suspense } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { Toaster } from 'sonner'
-import { ClientInfo } from './08-use-suspense/ClientInfo'
-import { getUserAction } from './08-use-suspense/api/get-user.action'
+import { ProfessionalApp } from './09-useContext/ProfessionalApp'
+// import { ClientInfo } from './08-use-suspense/ClientInfo'
+// import { getUserAction } from './08-use-suspense/api/get-user.action'
 // import { InstagromApp } from './07-useOptimistic/InstagromApp'
 // import { MemoCounter } from './06-memo-hook/MemoCounter'
 // import { MemoHook } from './06-memo-hook/MemoHook'
@@ -29,9 +30,10 @@ createRoot(document.getElementById('root')!).render(
     {/* <MemoHook /> */}
     {/* <MemoCounter /> */}
     {/* <InstagromApp /> */}
-    <Suspense fallback={<h1> Cargando </h1>}>
-      <ClientInfo getUser={ getUserAction( 1000 ) }/>
-    </Suspense>
+    {/* <Suspense fallback={<h1> Cargando </h1>}> */}
+    {/*   <ClientInfo getUser={ getUserAction( 1000 ) }/> */}
+    {/* </Suspense> */}
+    <ProfessionalApp />
     <Toaster />
   </StrictMode>
 )
